@@ -45,7 +45,7 @@ class TestVuesAuth(TestCase):
         User.objects.create_user(username="utilisateur_test", password="motdepasse123")
 
         # Obtenir le token
-        reponse = self.client.post(self.url_obtenir_token, self.utilisateur_test)
+        self.client.post(self.url_obtenir_token, self.utilisateur_test)
 
         # Rafraîchir le token
         reponse_rafraichie = self.client.post(self.url_rafraichir_token)
@@ -63,14 +63,12 @@ class TestModels(TestCase):
         self.budget = Budget.objects.create(
             utilisateur=self.utilisateur,
             montant_max=Decimal("1000.00"),
-            epargne=Decimal("200.00"),
         )
 
     def test_creation_budget(self):
         """Tester la création d'un budget"""
         self.assertEqual(self.budget.montant_max, Decimal("1000.00"))
         self.assertEqual(self.budget.montant_actuel, Decimal("1000.00"))
-        self.assertEqual(self.budget.epargne, Decimal("200.00"))
         self.assertEqual(self.budget.utilisateur, self.utilisateur)
 
     def test_creation_transaction_depense(self):
@@ -105,3 +103,53 @@ class TestModels(TestCase):
         self.assertEqual(self.budget.montant_actuel, Decimal("1500.00"))
         self.assertEqual(transaction.type, "revenu")
         self.assertEqual(transaction.categorie, "salaires")
+
+
+class TestVuesTransactions(TestCase):
+    def setUp(self):
+        """Configuration initiale pour les tests"""
+        self.client = APIClient()
+        self.url_transactions = reverse("transactions-list-create")
+        self.url_transaction_detail = reverse("transaction-detail", kwargs={"pk": 1})
+        self.utilisateur = User.objects.create_user(
+            username="utilisateur_test", password="motdepasse123"
+        )
+        self.budget = Budget.objects.create(
+            utilisateur=self.utilisateur,
+            montant_max=Decimal("1000.00"),
+            montant_actuel=Decimal("1000.00"),
+        )
+
+    def test_ajouter_transaction(self):
+        """Tester l'ajout d'une transaction"""
+        transaction_data = {
+            "montant": "150.00",
+            "type": "revenu",
+            "categorie": "autres",
+            "description": "Salaire mensuel",
+        }
+        self.client.force_authenticate(user=self.utilisateur)
+        reponse = self.client.post(self.url_transactions, transaction_data)
+        print(reponse.data)
+        self.assertEqual(reponse.status_code, status.HTTP_201_CREATED)
+        print(Transaction.objects.count())
+        self.assertEqual(Transaction.objects.count(), 1)
+        self.assertEqual(Transaction.objects.get().montant, Decimal("150.00"))
+        self.assertEqual(Transaction.objects.get().type, "revenu")
+        self.assertEqual(Transaction.objects.get().categorie, "salaires")
+        self.assertEqual(self.budget.montant_actuel, Decimal("1150.00"))
+
+    def test_lister_transactions(self):
+        """Tester la liste des transactions"""
+        transaction_data = {
+            "montant": "150.00",
+            "type": "revenu",
+            "categorie": "autres",
+            "description": "Salaire mensuel",
+        }
+        self.client.force_authenticate(user=self.utilisateur)
+        self.client.post(self.url_transactions, transaction_data)
+        reponse = self.client.get(self.url_transactions)
+        self.assertEqual(reponse.status_code, status.HTTP_200_OK)
+        print(reponse.data)
+        self.assertEqual(len(reponse.data), 1)

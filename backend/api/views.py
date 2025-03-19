@@ -1,11 +1,11 @@
-from django.contrib.auth.models import User
 from rest_framework import generics
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .serializer import UserSerializer
+from .models import *
+from .serializer import UserSerializer, TransactionSerializer, BudgetSerializer
 
 
 class CreationUtilisateurAPIView(generics.CreateAPIView):
@@ -50,3 +50,51 @@ class VuePersonnaliseeRafraichirToken(TokenRefreshView):
         request._full_data = {"refresh": request.COOKIES.get("refresh")}
         reponse: Response = super().post(request, *args, **kwargs)
         return reponse
+
+
+class AjouterListerTransactionAPIView(generics.ListCreateAPIView):
+    """Vue pour ajouter ou lister les transactions"""
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(utilisateur=self.request.user)
+
+    def get_queryset(self):
+        return Transaction.objects.filter(utilisateur=self.request.user)
+
+
+class RetrouverTransactionsAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """Vue pour retrouver une transaction d'un utilisateur"""
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+    lookup_field = "pk"
+
+    def get_queryset(self):
+        return Transaction.objects.filter(utilisateur=self.request.user)
+
+
+class AjouterListerBudgetAPIView(generics.ListCreateAPIView):
+    """Vue pour ajouter ou lister les budgets"""
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = BudgetSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(utilisateur=self.request.user)
+
+    def get_queryset(self):
+        return Transaction.objects.filter(utilisateur=self.request.user)
+
+
+class ModifierBudgetAPIView(generics.UpdateAPIView):
+    """Vue pour modifier le budget d'un utilisateur"""
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = BudgetSerializer
+    lookup_field = "pk"
+
+    def get_queryset(self):
+        return Transaction.objects.filter(utilisateur=self.request.user)
