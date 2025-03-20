@@ -1,12 +1,5 @@
-import React from 'react';
-
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  type?: 'button' | 'submit' | 'reset';
-  className?: string;
-  disabled?: boolean;
-}
+import { ButtonProps } from '../utils/type.ts'
+import React from 'react'
 
 function Button({
   children,
@@ -14,7 +7,7 @@ function Button({
   type = 'button',
   className = '',
   disabled,
-}: ButtonProps) {
+}: ButtonProps): React.ReactElement {
   return (
     <button
       type={type}
@@ -24,7 +17,7 @@ function Button({
     >
       {children}
     </button>
-  );
+  )
 }
 
-export default Button;
+export default Button

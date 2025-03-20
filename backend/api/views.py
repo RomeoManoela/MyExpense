@@ -2,10 +2,20 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .models import *
 from .serializer import UserSerializer, TransactionSerializer, BudgetSerializer
+
+
+class InfoUtilisateurAPIView(APIView):
+    """Vue pour obtenir les informations d'un utilisateur"""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request: Request) -> Response:
+        return Response({"username": request.user.username})
 
 
 class CreationUtilisateurAPIView(generics.CreateAPIView):

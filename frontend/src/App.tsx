@@ -8,6 +8,7 @@ import Error from './ui/Error.tsx'
 import Dashboard from './features/user/Dashboard.tsx'
 import { loginAction, registerAction } from './services/actions.ts'
 import ProtectedRoute from './features/auth/ProtectedRoute.tsx'
+import { dashboardLoader } from './services/loaders.ts'
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
           {
             path: '/dashboard',
             element: <Dashboard />,
+            loader: dashboardLoader,
             errorElement: <Error />,
           },
         ],
