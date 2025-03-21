@@ -28,11 +28,9 @@ function ProtectedRoute(): React.ReactElement {
         if (exp < currentTime) {
           // Token expiré, essayer de le rafraîchir
           try {
-            const response: AxiosResponse = await api.post(
-              'token-refresh/',
-              {},
-              { withCredentials: true },
-            )
+            const response: AxiosResponse = await api.post('token-refresh/', {
+              withCredentials: true,
+            })
 
             // Mise à jour du token
             const newToken: string = response.data.access

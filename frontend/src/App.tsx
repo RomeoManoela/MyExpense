@@ -5,10 +5,10 @@ import Login from './features/auth/Login.tsx'
 import Register from './features/auth/Register.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Error from './ui/Error.tsx'
-import Dashboard from './features/user/Dashboard.tsx'
 import { loginAction, registerAction } from './services/actions.ts'
 import ProtectedRoute from './features/auth/ProtectedRoute.tsx'
 import { dashboardLoader } from './services/loaders.ts'
+import Dashboard from './features/user/Dashboard.tsx'
 
 const router = createBrowserRouter([
   {

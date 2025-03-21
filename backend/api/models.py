@@ -9,12 +9,19 @@ class Budget(models.Model):
         User, on_delete=models.CASCADE, related_name="budget"
     )
     montant_max = models.DecimalField(max_digits=10, decimal_places=2)
-    montant_actuel = models.DecimalField(max_digits=10, decimal_places=2)
+    montant_actuel = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True
+    )
+    total_montant = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True
+    )
     date = models.DateField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if self.montant_actuel is None:
             self.montant_actuel = self.montant_max
+        if self.total_montant is None:
+            self.total_montant = self.montant_max
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -44,8 +51,8 @@ class Transaction(models.Model):
         max_length=100, choices=(("dépense", "Dépense"), ("revenu", "Revenu"))
     )
     categorie = models.CharField(max_length=100, choices=CHOIX_CATEGORIE)
-    date = models.DateField(auto_now_add=True)
     description = models.TextField(blank=True, null=True)
+    date = models.DateField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if self.type == "revenu":

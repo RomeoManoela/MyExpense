@@ -12,3 +12,23 @@ export interface ButtonProps {
   className?: string
   disabled?: boolean
 }
+
+export interface TransactionType {
+  id: number
+  montant: number
+  type: string
+  categorie: string
+  description: string
+  date: string
+}
+
+export interface TransactionState {
+  transactions: TransactionType[]
+  montant_max: null | number
+  montant_actuel: null | number
+}
+
+export interface DashboardState {
+  username: string
+  transactions: TransactionType[]
+}

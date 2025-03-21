@@ -6,7 +6,7 @@ function Home() {
   return (
     <div className='mx-auto max-w-4xl px-4 py-1'>
       <div className='p-4'>
-        <h1 className='mb-2 text-center text-3xl font-bold text-[#B9B28A]'>
+        <h1 className='mb-2 text-center text-4xl font-bold text-[#B9B28A]'>
           Prenez le contrôle de vos finances dès aujourd'hui !
         </h1>
 
@@ -53,7 +53,7 @@ function Home() {
           </div>
         </div>
 
-        <div className='rounded-md bg-[#3A3828] p-2'>
+        <div className='mt-4 rounded-md bg-[#3A3828] p-2'>
           <h2 className='mb-2 text-center text-2xl font-semibold text-[#B9B28A]'>
             Commencez dès maintenant
           </h2>
