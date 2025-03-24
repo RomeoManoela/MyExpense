@@ -117,7 +117,7 @@ function AddTransaction(): React.ReactElement {
             rows={2}
             value={description}
             onChange={(e): void => setDescription(e.target.value)}
-            className='mt-1 w-full rounded-md border border-[#504B38] bg-[#504B38] p-1 text-gray-200 focus:border-[#B9B28A] focus:outline-none focus:ring-1 focus:ring-[#B9B28A]'
+            className='mt-1 w-full resize-none rounded-md border border-[#504B38] bg-[#504B38] p-1 text-gray-200 focus:border-[#B9B28A] focus:outline-none focus:ring-1 focus:ring-[#B9B28A]'
           />
         </div>
 

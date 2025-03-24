@@ -8,12 +8,12 @@ urlpatterns = [
     path("register/", views.CreationUtilisateurAPIView.as_view(), name="register"),
     path(
         "token-obtain/",
-        views.VuePersonnaliseeObtenirToken.as_view(),
+        views.PersonnaliseeObtenirTokenAPIView.as_view(),
         name="token-obtain",
     ),
     path(
         "token-refresh/",
-        views.VuePersonnaliseeRafraichirToken.as_view(),
+        views.PersonnaliseeRafraichirTokenAPIView.as_view(),
         name="token-refresh",
     ),
     # URLs pour les transactions
@@ -38,4 +38,5 @@ urlpatterns = [
         views.ModifierBudgetAPIView.as_view(),
         name="budget-update",
     ),
+    path("logout/", views.DeconnectionAPIView.as_view(), name="logout"),
 ]

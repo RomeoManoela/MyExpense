@@ -2,6 +2,7 @@ import Button from './Button'
 import { useNavigate } from 'react-router-dom'
 
 function Home() {
+  const token: string | null = localStorage.getItem('accessToken')
   const navigate = useNavigate()
   return (
     <div className='mx-auto max-w-4xl px-4 py-1'>
@@ -54,16 +55,30 @@ function Home() {
         </div>
 
         <div className='mt-4 rounded-md bg-[#3A3828] p-2'>
-          <h2 className='mb-2 text-center text-2xl font-semibold text-[#B9B28A]'>
-            Commencez dès maintenant
-          </h2>
-          <p className='mb-2 text-center'>
-            Créez un compte gratuitement et commencez à suivre vos finances en
-            quelques minutes.
-          </p>
-          <div className='flex justify-center'>
-            <Button onClick={() => navigate('/register')}>S'inscrire</Button>
-          </div>
+          {!token ? (
+            <>
+              <h2 className='mb-2 text-center text-2xl font-semibold text-[#B9B28A]'>
+                Commencez dès maintenant
+              </h2>
+              <p className='mb-2 text-center'>
+                Créez un compte gratuitement et commencez à suivre vos finances
+                en quelques minutes.
+              </p>
+              <div className='flex justify-center'>
+                <Button onClick={() => navigate('/register')}>
+                  S'inscrire
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className='mb-2 text-center text-2xl font-semibold text-[#B9B28A]'>
+                <Button onClick={() => navigate('/dashboard')}>
+                  Tableau de bord
+                </Button>
+              </h2>
+            </>
+          )}
         </div>
       </div>
     </div>

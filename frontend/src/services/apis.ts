@@ -50,4 +50,14 @@ api.interceptors.response.use(
   },
 )
 
+export const logout = async (): Promise<void> => {
+  try {
+    await api.post('logout/')
+    localStorage.removeItem('accessToken')
+    window.location.href = '/login'
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export default api

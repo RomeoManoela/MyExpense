@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 
 from .models import *
 from .serializer import UserSerializer, TransactionSerializer, BudgetSerializer
@@ -26,31 +26,17 @@ class CreationUtilisateurAPIView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
 
-class VuePersonnaliseeObtenirToken(TokenObtainPairView):
-    """Vue personnalisée pour obtenir un token JWT"""
+class DeconnectionAPIView(APIView):
+    """Vue pour déconnecter un utilisateur"""
 
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
-    def post(self, request: Request, *args, **kwargs) -> Response:
-        """
-        Surcharge de la méthode post pour stocker le refresh token dans un cookie
-        et ne renvoyer que l'access token dans la réponse
-        """
-        reponse: Response = super().post(request, *args, **kwargs)
-        token_rafraichissement = reponse.data["refresh"]
-        reponse.set_cookie(
-            key="refresh",
-            value=token_rafraichissement,
-            httponly=True,
-            secure=False,
-            samesite="Lax",
-            max_age=3600 * 24 * 30,  # 30 jours
-        )
-        reponse.data.pop("refresh")
-        return reponse
+    def post(self, request: Request) -> Response:
+        request.COOKIES.pop("refresh")
+        return Response({"message": "Déconnecté avec succès"})
 
 
-class VuePersonnaliseeRafraichirToken(TokenRefreshView):
+class PersonnaliseeRafraichirTokenAPIView(TokenRefreshView):
     """Vue personnalisée pour rafraîchir un token JWT"""
 
     def post(self, request: Request, *args, **kwargs) -> Response:
@@ -59,6 +45,29 @@ class VuePersonnaliseeRafraichirToken(TokenRefreshView):
         """
         request._full_data = {"refresh": request.COOKIES.get("refresh")}
         reponse: Response = super().post(request, *args, **kwargs)
+        return reponse
+
+
+class PersonnaliseeObtenirTokenAPIView(TokenObtainPairView):
+    """Vue personnalisée pour obtenir un token JWT"""
+
+    permission_classes = [AllowAny]
+
+    def post(self, request: Request, *args, **kwargs) -> Response:
+        """
+        Surcharge de la méthode post pour stocker le refresh token dans un cookie http only
+        pour plus de sécurité et ne renvoyer que l'access token dans le corps de la réponse
+        """
+        reponse: Response = super().post(request, *args, **kwargs)
+        token_rafraichissement = reponse.data.pop("refresh")
+        reponse.set_cookie(
+            key="refresh",
+            value=token_rafraichissement,
+            httponly=True,
+            secure=False,
+            samesite="Lax",
+            max_age=3600 * 24 * 30,  # 30 jours
+        )
         return reponse
 
 

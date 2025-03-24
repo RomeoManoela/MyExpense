@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store.ts'
 import { TransactionType } from '../../utils/type.ts'
 import { fetchTransactions } from '../transaction/transactionSlice.ts'
+import { logout } from '../../services/apis.ts'
 
 function Dashboard(): React.ReactElement {
   const username: string = useLoaderData() as string
@@ -16,6 +17,7 @@ function Dashboard(): React.ReactElement {
 
   React.useEffect(() => {
     if (transactions.length === 0) {
+      // @ts-ignore
       dispatch(fetchTransactions())
     }
   }, [dispatch, transactions.length])
@@ -27,12 +29,14 @@ function Dashboard(): React.ReactElement {
       }
     >
       <h1
+        onClick={() => logout()}
         className={
-          'absolute right-4 top-1 inline-block rounded bg-[#EBE5C2] px-1' +
-          ' font-bold text-stone-800'
+          'fixed right-4 top-1.5 inline-block rounded bg-[#EBE5C2] px-1' +
+          ' font-bold text-stone-800 hover:bg-[#B9B28A] hover:text-stone-900' +
+          'transition-duration-300 cursor-pointer transition-all'
         }
       >
-        {username}
+        {username} : déconnecter ?
       </h1>
       <div className={'col-span-2'}>
         <div className={'grid grid-cols-2 gap-1'}>
