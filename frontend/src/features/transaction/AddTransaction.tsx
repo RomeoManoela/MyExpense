@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store.ts'
 import { addTransaction } from './transactionSlice.ts'
 import { TransactionType } from '../../utils/type.ts'
+import { setUser } from '../user/userSlice.ts'
 
 function AddTransaction(): React.ReactElement {
   const [montant, setMontant] = React.useState<number>(0)
@@ -28,8 +29,12 @@ function AddTransaction(): React.ReactElement {
         categorie,
         description,
       })
-
+      dispatch(setUser())
       dispatch(addTransaction(response.data))
+      setDescription('')
+      setMontant(0)
+      setType('dépense')
+      setCategorie('transport')
     } catch (error) {
       console.error(error)
     }

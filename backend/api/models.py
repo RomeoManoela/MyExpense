@@ -58,6 +58,7 @@ class Transaction(models.Model):
         if self.type == "revenu":
             self.categorie = "salaires"
             self.utilisateur.budget.montant_actuel += self.montant
+            self.utilisateur.budget.montant_max += self.montant
             self.utilisateur.budget.save()
         elif self.type == "dépense":
             self.utilisateur.budget.montant_actuel -= self.montant

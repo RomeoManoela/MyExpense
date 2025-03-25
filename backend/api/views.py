@@ -10,12 +10,25 @@ from .serializer import UserSerializer, TransactionSerializer, BudgetSerializer
 
 
 class InfoUtilisateurAPIView(APIView):
-    """Vue pour obtenir les informations d'un utilisateur"""
+    """Vue pour obtenir l'info d'un utilisateur"""
 
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
-        return Response({"username": request.user.username})
+        try:
+            budget = request.user.budget
+        except Budget.DoesNotExist:
+            budget = type("obj", (object,), {"montant_actuel": 0, "montant_max": 0})
+        return Response(
+            {
+                "username": request.user.username,
+                "budget": {
+                    "solde": budget.montant_actuel,
+                    "depense": budget.montant_max - budget.montant_actuel,
+                    "budget": budget.montant_max,
+                },
+            }
+        )
 
 
 class CreationUtilisateurAPIView(generics.CreateAPIView):

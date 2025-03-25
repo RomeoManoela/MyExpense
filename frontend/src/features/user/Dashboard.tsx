@@ -1,26 +1,25 @@
 import React from 'react'
-import { useLoaderData } from 'react-router-dom'
 import AddTransaction from '../transaction/AddTransaction.tsx'
 import Stats from '../transaction/Stats.tsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../store.ts'
-import { TransactionType } from '../../utils/type.ts'
+import { AppDispatch, RootState } from '../../store.ts'
+import { TransactionType, UserState } from '../../utils/type.ts'
 import { fetchTransactions } from '../transaction/transactionSlice.ts'
 import { logout } from '../../services/apis.ts'
 
 function Dashboard(): React.ReactElement {
-  const username: string = useLoaderData() as string
-  const dispatch = useDispatch()
+  const userInfo: UserState = useSelector((state: RootState) => state.user)
+  const { username, budget } = userInfo
+  const dispatch: AppDispatch = useDispatch()
   const transactions: TransactionType[] = useSelector(
     (state: RootState) => state.transactions.transactions,
   )
 
   React.useEffect(() => {
     if (transactions.length === 0) {
-      // @ts-ignore
       dispatch(fetchTransactions())
     }
-  }, [dispatch, transactions.length])
+  }, [dispatch, transactions.length, budget])
 
   return (
     <div
@@ -29,7 +28,13 @@ function Dashboard(): React.ReactElement {
       }
     >
       <h1
-        onClick={() => logout()}
+        onClick={() => {
+          if (window.confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+            logout().catch(() => {
+              console.error('Erreur lors de la déconnexion')
+            })
+          }
+        }}
         className={
           'fixed right-4 top-1.5 inline-block rounded bg-[#EBE5C2] px-1' +
           ' font-bold text-stone-800 hover:bg-[#B9B28A] hover:text-stone-900' +
@@ -44,7 +49,7 @@ function Dashboard(): React.ReactElement {
             <AddTransaction />
           </div>
           <div className={'rounded-md bg-[#EBE5C2] p-4 text-sm shadow-md'}>
-            <Stats />
+            <Stats budget={budget} />
           </div>
         </div>
       </div>

@@ -32,3 +32,12 @@ export interface DashboardState {
   username: string
   transactions: TransactionType[]
 }
+
+export interface UserState {
+  username: string
+  budget: {
+    solde: null | number
+    depense: null | number
+    budget: null | number
+  }
+}
