@@ -5,7 +5,7 @@ import api from './apis.ts'
 
 export const dashboardLoader = async (): Promise<null> => {
   store.dispatch(setUser())
-  const res: AxiosResponse = api.post('budgets/', {
+  const res: AxiosResponse = await api.post('budgets/', {
     montant_max: 0,
     montant_actuel: 0,
     total_montant: 0,

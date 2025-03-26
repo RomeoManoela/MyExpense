@@ -115,10 +115,15 @@ class AjouterListerBudgetAPIView(generics.ListCreateAPIView):
     serializer_class = BudgetSerializer
 
     def perform_create(self, serializer):
-        serializer.save(utilisateur=self.request.user)
+        if not Budget.objects.get(utilisateur=self.request.user):
+            serializer.save(utilisateur=self.request.user)
+            return
 
     def get_queryset(self):
-        return Transaction.objects.filter(utilisateur=self.request.user)
+        try:
+            return Budget.objects.filter(utilisateur=self.request.user)
+        except:
+            return Budget.objects.none()
 
 
 class ModifierBudgetAPIView(generics.UpdateAPIView):
@@ -129,4 +134,5 @@ class ModifierBudgetAPIView(generics.UpdateAPIView):
     lookup_field = "pk"
 
     def get_queryset(self):
-        return Transaction.objects.filter(utilisateur=self.request.user)
+        # Correction: retourner les budgets et non les transactions
+        return Budget.objects.filter(utilisateur=self.request.user)
