@@ -41,3 +41,21 @@ export interface UserState {
     budget: null | number
   }
 }
+
+interface CategoryData {
+  categorie: string
+  montant: number
+}
+
+interface DailyExpense {
+  date: string
+  montant: number
+}
+
+export interface AnalyticsState {
+  categories: CategoryData[]
+  dailyExpenses: DailyExpense[]
+  loading: boolean
+  error: string | null
+  lastUpdated: number
+}

@@ -7,10 +7,10 @@ function AppLayout() {
   const navigation: Navigation = useNavigation()
   const isLoading: boolean = navigation.state == 'loading'
   return (
-    <div className={'grid h-screen grid-rows-[auto_1fr_auto]'}>
+    <div className='min-h-screen bg-[#504B38]'>
       {isLoading && <Loader />}
       <Header />
-      <main className={'relative overflow-y-scroll'}>
+      <main className='pb-16'>
         <Outlet />
       </main>
       <Footer />

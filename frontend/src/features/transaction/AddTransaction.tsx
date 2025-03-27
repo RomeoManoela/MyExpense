@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from '../../store.ts'
 import { addTransaction } from './transactionSlice.ts'
 import { TransactionType } from '../../utils/type.ts'
 import { setUser } from '../user/userSlice.ts'
+import { fetchAnalytics } from './analyticsSlice'
 
 function AddTransaction(): React.ReactElement {
   const [montant, setMontant] = React.useState<number>(0)
@@ -31,6 +32,7 @@ function AddTransaction(): React.ReactElement {
       })
       dispatch(setUser())
       dispatch(addTransaction(response.data))
+      dispatch(fetchAnalytics()) // Actualiser les données d'analyse
       setDescription('')
       setMontant(0)
       setType('dépense')
@@ -42,10 +44,6 @@ function AddTransaction(): React.ReactElement {
 
   return (
     <>
-      <h2 className='mb-2 text-sm font-semibold text-[#504B38]'>
-        Nouvelle transaction
-      </h2>
-
       <form className='space-y-1 text-xs' onSubmit={handleSubmit}>
         <div>
           <label htmlFor='montant' className='block font-medium text-[#504B38]'>

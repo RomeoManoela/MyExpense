@@ -55,8 +55,7 @@ function ProtectedRoute(): React.ReactElement {
 
     checkToken()
   }, [])
-
-  // Afficher un loader pendant la vérification
+  
   if (authState === 'loading') {
     return <Loader />
   }

@@ -1,5 +1,7 @@
+from datetime import datetime, timedelta
+
 from rest_framework import generics
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -115,9 +117,8 @@ class AjouterListerBudgetAPIView(generics.ListCreateAPIView):
     serializer_class = BudgetSerializer
 
     def perform_create(self, serializer):
-        if not Budget.objects.get(utilisateur=self.request.user):
+        if not Budget.objects.filter(utilisateur=self.request.user).exists():
             serializer.save(utilisateur=self.request.user)
-            return
 
     def get_queryset(self):
         try:
@@ -134,5 +135,44 @@ class ModifierBudgetAPIView(generics.UpdateAPIView):
     lookup_field = "pk"
 
     def get_queryset(self):
-        # Correction: retourner les budgets et non les transactions
         return Budget.objects.filter(utilisateur=self.request.user)
+
+
+class AnalyticsAPIView(APIView):
+    """Vue pour obtenir les données d'analyse des transactions"""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request: Request) -> Response:
+        transactions = Transaction.objects.filter(utilisateur=request.user)
+
+        # Données pour le graphique en camembert (répartition par catégorie)
+        categories_data = {}
+        for transaction in transactions:
+            if transaction.type == "dépense":
+                if transaction.categorie in categories_data:
+                    categories_data[transaction.categorie] += transaction.montant
+                else:
+                    categories_data[transaction.categorie] = transaction.montant
+
+        # Données pour le graphique linéaire (dépenses quotidiennes)
+        today = datetime.now().date()
+        last_7_days = [(today - timedelta(days=i)) for i in range(6, -1, -1)]
+
+        daily_expenses = []
+        for day in last_7_days:
+            day_total = sum(
+                t.montant for t in transactions if t.type == "dépense" and t.date == day
+            )
+            daily_expenses.append(
+                {"date": day.strftime("%Y-%m-%d"), "montant": day_total}
+            )
+
+        return Response(
+            {
+                "categories": [
+                    {"categorie": k, "montant": v} for k, v in categories_data.items()
+                ],
+                "daily_expenses": daily_expenses,
+            }
+        )
