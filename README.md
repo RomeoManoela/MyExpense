@@ -41,7 +41,7 @@ Une application web de suivi des dépenses personnelles permettant aux utilisate
 ```bash
 # Cloner le dépôt
 git clone https://github.com/RomeoManoela/MyExpense.git
-cd r-ExpenseTracker
+cd MyExpense
 
 # Installer les dépendances frontend
 cd frontend
@@ -56,11 +56,11 @@ npm run dev
 ```bash
 # Créer un environnement virtuel
 cd backend
-python -m venv .venv
+python -m venv .venv  # ou python3 -m venv .venv
 source .venv/bin/activate  # Sur Windows: .venv\Scripts\activate
 
 # Installer les dépendances
-pip install -r requirements.txt
+pip install -r requirements.txt # ou pip3 install -r requirements.txt
 ```
 
 Créer un fichier `.env` dans le dossier backend avec:
@@ -75,10 +75,10 @@ POSTGRES_PORT=5432
 
 ```bash
 # Appliquer les migrations
-python manage.py migrate
+python manage.py migrate # ou python3 manage.py migrate
 
 # Lancer le serveur
-python manage.py runserver 8001
+python manage.py runserver 8001 # ou python3 manage.py runserver 8001
 ```
 
 ## 📷 Captures d'écran
