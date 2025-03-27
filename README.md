@@ -40,7 +40,7 @@ Une application web de suivi des dépenses personnelles permettant aux utilisate
 
 ```bash
 # Cloner le dépôt
-git clone https://github.com/RomeoManoela/r-ExpenseTracker.git
+git clone https://github.com/RomeoManoela/MyExpense.git
 cd r-ExpenseTracker
 
 # Installer les dépendances frontend
