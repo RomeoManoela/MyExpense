@@ -1,48 +1,48 @@
 # r-ExpenseTracker
 
-Une application web de suivi des dépenses personnelles, permettant aux utilisateurs de gérer leurs finances
-efficacement.
+Une application web de suivi des dépenses personnelles permettant aux utilisateurs de gérer efficacement leurs finances.
 
-## Fonctionnalités
+## 📊 Fonctionnalités
 
-- Authentification et gestion des utilisateurs par JWT
-- Enregistrement des dépenses et revenus
-- Visualisation des dépenses par catégorie
-- Rapports détaillés et graphiques
-- Planification budgétaire
+- **Authentification sécurisée** par JWT avec cookies HTTP-only
+- **Gestion complète des transactions** (dépenses et revenus)
+- **Visualisation intuitive** des dépenses par catégorie
+- **Tableaux de bord interactifs** avec graphiques et statistiques
+- **Planification budgétaire** personnalisée
+- **Interface responsive** adaptée à tous les appareils
 
-## Technologies utilisées
+## 🛠️ Technologies
 
 ### Frontend
 
-- React 19
-- TypeScript
-- Redux Toolkit
+- React 19 avec TypeScript
+- Redux Toolkit pour la gestion d'état
 - React Router v7
-- Chart.js
-- Tailwind CSS
-- Vite
+- Chart.js pour les visualisations
+- Tailwind CSS pour le design
+- Vite pour le bundling
 
 ### Backend
 
-- Django
-- Django REST Framework
-- JWT Authentication
+- Django avec Django REST Framework
+- Authentification JWT sécurisée
+- Base de données PostgreSQL
 
-## Installation
+## 🚀 Installation
 
 ### Prérequis
 
 - Node.js (v18+)
 - Python (v3.10+)
 - npm ou yarn
+- PostgreSQL
 
 ### Configuration du frontend
 
 ```bash
 # Cloner le dépôt
-git clone https://github.com/RomeoManoela/MyExpense.git
-cd MyExpense
+git clone https://github.com/RomeoManoela/r-ExpenseTracker.git
+cd r-ExpenseTracker
 
 # Installer les dépendances frontend
 cd frontend
@@ -61,35 +61,36 @@ python -m venv .venv
 source .venv/bin/activate  # Sur Windows: .venv\Scripts\activate
 
 # Installer les dépendances
-pip install -r requirements.txt # ou pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-Créer un fichier .env et y mettre les variables d'environnement:
+Créer un fichier `.env` dans le dossier backend avec:
 
-```bash
+```
 POSTGRES_DB=r_expense
-POSTGRES_USER=vous
-POSTGRES_PASSWORD=vous
+POSTGRES_USER=votre_utilisateur
+POSTGRES_PASSWORD=votre_mot_de_passe
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 ```
 
-``` bash
+```bash
 # Appliquer les migrations
-
 python manage.py migrate
 
 # Lancer le serveur
-
 python manage.py runserver 8001
-
 ```
 
-## Captures d'écran
+## 📷 Captures d'écran
 
 ![Dashboard](dashboard.png)
 *Dashboard principal avec graphiques et historique des transactions*
 
-## Auteur
+## 📝 Licence
+
+MIT
+
+## 👨‍💻 Auteur
 
 Créé par Roméo Manoela
