@@ -1,6 +1,6 @@
 # MyExpense
 
-Une application web de suivi des dépenses personnelles permettant aux utilisateurs de gérer efficacement leurs finances.
+Une application web de suivi des dépenses personnelles permettant de gérer efficacement mes finances.
 
 ## 📊 Fonctionnalités
 
