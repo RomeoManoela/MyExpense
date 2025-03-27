@@ -4,11 +4,11 @@ Une application web de suivi des dépenses personnelles permettant aux utilisate
 
 ## 📊 Fonctionnalités
 
-- Authentification sécurisée** par JWT avec cookies HTTP-only
-- Gestion complète des transactions** (dépenses et revenus)
-- Visualisation intuitive** des dépenses par catégorie
-- Tableaux de bord interactifs** avec graphiques et statistiques
-- Interface responsive** adaptée à tous les appareils
+- Authentification sécurisée par JWT avec cookies HTTP-only
+- Gestion complète des transactions (dépenses et revenus)
+- Visualisation intuitive des dépenses par catégorie
+- Tableaux de bord interactifs avec graphiques et statistiques
+- Interface responsive adaptée à tous les appareils
 
 ## 🛠️ Technologies
 
